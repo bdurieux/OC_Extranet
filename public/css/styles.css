@@ -1,0 +1,258 @@
+/* 	HEADER  */
+header {
+	padding: 20px;
+	display: flex;
+	justify-content: space-between;
+    
+    border-bottom: 3px double black;
+
+	/* background-color: lightgreen;   /*  DEBUG    */	
+}
+
+#header1{
+    border: 3px dotted white;   /*  DEBUG    */
+}
+
+#header1 img{
+    width: 100%;   
+    height: auto;
+}
+
+#header2{
+	display: flex;
+    flex-direction: column;
+    
+    /*background-color: lightgreen;   /*  DEBUG    */
+}
+
+#header2 div{
+	margin: 5px;
+}
+
+#header21{
+    display: flex;
+    align-items: center;
+}
+
+#header212{
+    font-size: larger;
+    font-weight: 700;
+}
+
+/*  BODY   */
+body{
+    margin: 1em 16.66%;
+    font-size: 16px;
+}
+
+.container{
+    padding: 0em 1em;
+}
+
+#presentation{
+    border-bottom: 3px double black;
+}
+
+#presentation2{
+	display: flex;
+    flex-direction: column;
+    margin: 2em 0em;
+}
+
+#presentation2 img{
+	margin: auto;
+    max-width: 100%;
+    border-radius: 5px;
+}
+
+#partners{
+    margin-top: 2em;
+}
+
+#comments{	
+	padding: 10px;
+	display: flex;
+    flex-direction: column;
+    
+    /*border: 2px solid black;    /*  DEBUG   */
+}
+
+#headerComments{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+#block-btn{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+
+    /*border: 3px dotted blue;    /*   DEBUG   */ 
+}
+
+.comment{
+    margin: 1em;
+    padding: 1em;
+    border: 3px solid black;
+    border-radius: 4px;
+    box-shadow: 5px 2px 3px black;
+}
+
+.partnerIcon{
+	width: 108px;
+
+	/*border: 3px dotted blue;    /*   DEBUG   */
+}
+
+.partner{
+	padding: 10px;
+	display: flex;
+    margin: 1em 0em;
+
+	/*border: 3px solid blue; /*   DEBUG   */
+}
+
+.partner1{
+    align-self: center;
+    /*border: 3px solid blue; /*   DEBUG   */
+}
+
+.partner2{
+    display: flex;
+	flex-grow: 2;	
+
+	/*border: 3px dotted green;   /*  DEBUG   */
+}
+
+.partnerText{
+	padding: 10px;
+	flex-grow: 2;
+
+	/*border: 3px dotted blue;    /*   DEBUG   */
+}
+
+.partnerBtn{
+    align-self: flex-end;   
+}
+
+#partnerInfos{
+    display: flex;
+    flex-direction: column;
+    text-align: justify;
+    padding: 1em;
+
+    /*border: 3px dotted green;   /*  DEBUG   */
+}
+
+#partnerLogo{
+    margin: auto;
+
+    /*border: 3px dotted red;   /*  DEBUG   */
+}
+
+/* 	FOOTER  */
+footer {
+    margin-top: 1em;
+	padding: 2em;
+    text-align: center;
+    border-top: 3px double black;
+
+	/*background-color: orange;   /*  DEBUG    */
+	
+}
+
+footer a{    
+    padding: 1em;    
+}
+
+/*   FORM   */
+
+.btn-hidden{
+    display: none;
+}
+
+.btn{
+    margin: 1em 1em;
+	padding: 12px 16px;
+    border-radius: 4px;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 5px 2px 3px black;
+    cursor: pointer;
+}
+
+.btn-primary{
+	background-color: #1088ff;
+}
+
+.btn-primary:hover{
+    color: #f7f7f7;
+	background-color: #0c6ccc;
+}
+
+.btn-danger{
+	background-color: #c80f3b;	
+}
+
+.btn-danger:hover{
+    color: #f7f7f7;
+	background-color: #a00c2f;	
+}
+
+.btn-success{
+	background-color: #45a739;
+}
+
+.btn-success:hover{
+    color: #f7f7f7;
+	background-color: #3e9633;
+}
+
+.form-group{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1em;
+    width: 100%;
+    
+}
+
+.form-control {
+    margin: 1em 0em;
+    width: 100%;
+    border: 3px solid lightblue;
+}
+
+input{
+    padding-top: 1em;
+    border-radius: 4px;
+}
+
+/*  RESPONSIVE    */
+@media screen and (max-width:950px){    /*  TABLETTE    */
+    body{
+        margin: 0%;
+        background-color: lightyellow;
+    }
+
+    #partnersText{
+        margin: 0em 5%;
+    }
+
+    .partner2{
+        display: flex;
+        flex-direction: column;
+    }
+
+    #block-btn{
+        display: flex;
+        flex-direction: column;
+    
+        /*border: 3px dotted blue;    /*   DEBUG   */ 
+    }
+
+    #review-btn{
+        margin: auto;
+    }
+}
