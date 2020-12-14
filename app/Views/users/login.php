@@ -5,9 +5,9 @@
 	</div>
 <?php endif; ?>
 <form method="post">
-	<?= $form->input('username', 'Pseudo'); ?>
+	<?= $form->input('username', 'Pseudo',true); ?>
 	<?= $form->input('password', 'Mot de passe', ['type' => 'password']); ?>
 	<?= $form->submit('Envoyer'); ?>
 </form>
-<p><a href="index.php?p=users.forgotPass">Mot de passe oublié?</a></p>
+<p><a href="index.php?p=users.inscription">S'inscrire</a> ou <a href="index.php?p=users.forgotPass">Mot de passe oublié?</a></p>
 

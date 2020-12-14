@@ -6,7 +6,7 @@ use Core\Table\Table;
 
 class CommentTable extends Table{
 
-    protected $table = 'comments';	
+    protected $table = 'post';	
     
 	protected $fakeData = [
         [
@@ -34,15 +34,15 @@ class CommentTable extends Table{
 
 	/**
 	*	Récupère tous les commentaires sur le partenaire indiqué
-	*	@param $category_id int
+	*	@param $partner_id int
 	*	@return array
 	*/
 	public function allByPartner($partner_id){
 		/*
 		return $this->query("
 			SELECT *
-			FROM comments
-			WHERE partner_id = ? 
+			FROM post
+			WHERE id_acteur = ? 
 			ORDER BY date DESC
 		",[$partner_id]);
 		*/
@@ -53,6 +53,21 @@ class CommentTable extends Table{
 			}
 		}
 		return $data;
+	}
+
+	public function findOne($id_user, $id_acteur){
+		//var_dump($this->table); /*  DEBUG */
+		return $this->query("SELECT * FROM {$this->table} WHERE id_user = ? AND id_acteur = ? ",
+		 [$id_user, $id_acteur],
+		 true
+		);
+		/* $data = null;
+		foreach($this->fakeData as $partner){
+			if($partner['id'] == $id){
+				$data = $partner;
+			}
+		}
+		return $data; */
 	}
 	
 }

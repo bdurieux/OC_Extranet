@@ -2,44 +2,40 @@
 <html lang="en">
   <head>
     <title><?= $title; ?></title>
-
-    <!-- Custom styles for this template 
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">  
-    -->
+    <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    
     <link rel="stylesheet" href="css/styles.css" />
     <link rel="stylesheet" media="screen and (max-width: 600px)" href="css/styles_mobile.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
   </head>
   <body>
     <!-- HEADER   -->
     <header>
       <div id="header1">
-        <img src="images/gbaf.png" alt="logo GBAF">
+        
+        <a href="index.php">
+          <img src="images/gbaf.png" alt="logo GBAF">
+        </a>
       </div>
       <div id="header2">
         <div id="header21">
-          <div id="header211">
-            <button class="btn btn-primary <?= $connected; ?>"><i class="fa fa-user"></i></button>
+          <div id="header211" class="<?= $headerConnexion; ?>">
+            <a href="index.php?p=users.param" class="button btn btn-primary "><i class="fa fa-user"></i></a>
           </div>
           <div id="header212"><?= $headerText; ?></div>	
-          <div id="header213">
-            <button class="btn btn-danger <?= $connected; ?>"><i class="fa fa-sign-out"></i></button>
+          <div id="header213" class="<?= $headerConnexion; ?>">
+            <a href="index.php?p=users.logout" class="button btn btn-danger "><i class="fa fa-sign-out"></i></a>
           </div>
         </div>        		
       </div>
     </header>
-    <!-- MAIN   -->
-    <main role="main" class="container">
-
-      <div class="" style="padding-top: 100px">
-        <?= $content; ?>
-      </div>
-
-    </main><!-- /.container -->
+    <div class="content" style="padding-top: 100px">
+      <?= $content; ?>
+    </div>
     <!-- FOOTER   -->
     <footer>
-      <p>|<a href="">Mentions légales</a>|<a href="">Contact</a>|</p>      
+      <p>|<a href="index.php?p=public.legal">Mentions légales</a>|<a href="index.php?p=public.contact">Contact</a>|</p>      
     </footer>
 </body>
 </html>

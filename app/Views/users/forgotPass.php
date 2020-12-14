@@ -6,9 +6,11 @@
 	</div>
 <?php endif; ?>
 <form method="post">
-	<?= $form->input('username', 'Pseudo'); ?>
-    <p><strong>Question secrète:</strong></p>
-    <p><?= $secretQuestion="surnom de la voisine" . " ?"; ?></p>
-	<?= $form->input('password', 'Réponse secrète', ['type' => 'password']); ?>
+	<?= $form->input('username', 'Pseudo',true); ?>
+	<div class="<?= $unidentified; ?>">
+		<p><strong>Question secrète:</strong></p>
+		<p><?= $question; ?></p>
+		<?= $form->input('reponse', 'Réponse secrète', true, ['type' => 'password']); ?>
+	</div>
 	<?= $form->submit('Envoyer'); ?>
 </form>

@@ -1,3 +1,10 @@
+<?php
+/* $cookiename = "cookie with no name";
+if(isset($_COOKIE['username'])){
+    $cookiename = "Welcome " . $_COOKIE['username'];
+}
+var_dump($cookiename); */
+?>
 <section id="presentation">
     <h1>GBAF</h1>
     <div id="presentation1">
@@ -33,18 +40,17 @@
     <?php foreach ($partners as $partner): ?>	
         <div class="partner">
             <div class="partner1">
-                <img class="partnerIcon" src="images/user.png" alt="logo acteur">
+                <img class="partnerIcon" src="images/logo_p<?= $partner->id_acteur;//$partner['id']; ?>.png" alt="logo acteur">
             </div>
             <div class="partner2">                
                 <div class="partnerText">
-                    <h3><?= $partner['title']; ?></h3>
-                    <p><?= $partner['description']; ?></p>
-                    <a href="#">lien vers ??</a>					
+                    <h3><?= $partner->acteur;//$partner['title']; ?></h3>
+                    <p><?= substr($partner->description, 0, 150) . '...'; ?></p>					
                 </div>
                 <div class="partnerBtn">
-                    <form action="index.php?p=partners.show&id=<?= $partner['id']; ?>" method="get">
-                        <button class="btn btn-primary btn-suite" type="submit">Détails</button>
-                    </form>                
+                    <a href="index.php?p=partners.show&id=<?= $partner->id_acteur; ?>" class="button btn btn-primary" >
+                    <strong>Détails</strong>
+                    </a>               
                 </div>
             </div>
         </div>

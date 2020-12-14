@@ -1,16 +1,20 @@
 <?php
-
+session_start();
 define('ROOT', dirname(__DIR__));
 require ROOT . '/app/App.php';
 
 App::load();
 
+if(isset($_SESSION['auth'])){
+	$home = "partners.index";
+}else{
+	$home = "users.login";
+}
+
 if(isset($_GET['p'])){
 	$page = $_GET['p'];
-}elseif(isset($_COOKIE['username'])){
-	$page = 'users.login';
 }else{
-	$page = 'users.inscription';
+	$page = $home;
 }
 
 $page = explode('.', $page);
@@ -25,3 +29,11 @@ if($page[0] == 'admin'){
 
 $controller = new $controller();
 $controller->$action();
+try{
+	//$controller->$action();
+}catch(Throwable $t){
+	header('Location: index.php?p=public.notFound');
+}catch(Exception $e){
+	header('Location: index.php?p=public.notFound');
+}
+

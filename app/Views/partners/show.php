@@ -1,10 +1,10 @@
 <section id="partnerInfos">
     <div id="partnerLogo">
-        <img src="images/user.png" alt="logo acteur">
+        <img src="images/logo_p<?= $partner->id_acteur; ?>.png" alt="logo acteur">
     </div>
-    <h2><?= $partner['title']; ?></h2>
+    <h2><?= $partner->acteur; ?></h2>
     <a href="#">Lien</a>
-    <p><?= $partner['description']; ?></p>
+    <p><?= $partner->description; ?></p>
 </section>		
 <section id="comments">
     <div id="headerComments">
@@ -13,16 +13,24 @@
             <h3><?= sizeof($comments); ?> commentaire<?= $s; ?></h3>
         </div>
         <div id="block-btn">
-            <button class="btn btn-primary">Nouveau commentaire</button>
+            <button class="btn btn-primary" onclick="toggleNewComment()">Nouveau commentaire</i></button>
             <div id="review-btn">
-                <label><strong><?= $partner['nb_like']; ?></strong></label>
-                <button class="btn btn-success"><i class="fa fa-thumbs-up"></i></button>
-                <label><strong><?= $partner['nb_dislike']; ?></strong></label>
-                <button class="btn btn-danger"><i class="fa fa-thumbs-down"></i></button>
+                <form method="post">
+                    <label><strong><?= 5;//$partner['nb_like']; ?></strong></label>
+                    <button class="btn btn-success" type="submit" name="like"><i class="fa fa-thumbs-up"></i></button>
+                </form>
+                <form method="post">
+                    <label><strong><?= 2;//$partner['nb_dislike']; ?></strong></label>
+                    <button class="btn btn-danger" type="submit" name="dislike"><i class="fa fa-thumbs-down"></i></button>
+                </form>
             </div>
         </div>				
     </div>
     <div id="listComments">
+        <form method="post" id="newComment" >
+            <?= $form->input('comment', 'Nouveau commentaire',true, ['type' => 'textarea']); ?>
+            <?= $form->submit('Envoyer'); ?>
+        </form>
         <?php foreach ($comments as $comment): ?>	
             <div class="comment">
                 <p><strong><?= $comment['user_id']; ?></strong></p>
@@ -32,3 +40,4 @@
         <?php endforeach; ?>
     </div>
 </section>
+<script type="text/javascript" src="js/script.js"></script>

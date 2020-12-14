@@ -6,7 +6,7 @@ use Core\Database\Database;
 
 class DBAuth{
 
-	private $db;
+	protected $db;
 
 	public function __construct(Database $db){
 		$this->db = $db;
@@ -31,11 +31,14 @@ class DBAuth{
 	*	@return boolean renvoie true si le mot de passe correspond
 	*/
 	public function login($username, $password){
-		$user = $this->db->prepare('SELECT * FROM users WHERE username = ?', [$username], null, true);
-		var_dump($user);
+		$user = $this->db->prepare('SELECT * FROM account WHERE username = ?', [$username], null, true);
+		
+		//var_dump(sha1('demo'));   /*  DEBUG   */
+		
 		if ($user) {
 			if ($user->password === sha1($password)) {
-				$_SESSION['auth'] = $user->id;
+				$_SESSION['auth'] = $user->id_user;
+				setcookie('username', $user->username, time() + (86400 * 30), "/");
 				return true;
 			}			
 		}

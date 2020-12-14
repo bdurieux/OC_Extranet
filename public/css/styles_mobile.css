@@ -3,19 +3,28 @@ header{
     flex-direction: column;
 }
 
+#header1{
+    align-self: center;
+    /*border: 5px dotted red;   /*  DEBUG   */
+}
+
 #header2{
     margin: auto;
     /*border: 5px dotted red;   /*  DEBUG   */
 }
 
 body{
-    
-    background-color:lightgrey;
+    width: 90%;
+
+    /*background-color:lightgrey; /*  DEBUG   */
 }
 
 .partner{
-    display: flex;
     flex-direction: column;
+}
+
+.partnerIcon{
+    max-width: 100%;
 }
 
 .btn{

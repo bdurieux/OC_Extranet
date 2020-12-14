@@ -17,7 +17,6 @@ class Table{
 			$this->table = strtolower(str_replace('Table', '', $class_name)) . 's';
 		}
 		
-		
 	}
 
 	public function all(){
