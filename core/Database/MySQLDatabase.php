@@ -22,7 +22,8 @@ class MySQLDatabase extends Database{
 	private function getPDO(){
 		if($this->pdo === null){
 			//$pdo = new PDO('mysql:dbname=blog_grafikart;host=localhost', 'root','');
-			$pdo = new PDO('mysql:dbname=' . $this->db_name . ';host=' . $this->db_host . '', '' . $this->db_user . '','' . $this->db_pass . '');
+			$pdo = new PDO('mysql:dbname=' . $this->db_name .
+			 ';host=' . $this->db_host . '', '' . $this->db_user . '','' . $this->db_pass . '',array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
 			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);	// pour afficher les erreurs lors du développement
 			$this->pdo = $pdo;
 		}

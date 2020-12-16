@@ -8,27 +8,6 @@ class UserTable extends Table{
 
     protected $table= "account";
 
-	/* protected $fakeData = [
-        [
-            'id' => '1',
-            'firstname' => 'John',
-            'lastname' => 'Doe', 
-            'username' => 'JD42', 
-            'password' => '1234',
-            'question' => 'Surnom de la directrice du collège',
-            'response' => 'Rambo12'
-        ],
-        [
-            'id' => '2',
-            'firstname' => 'Erika',
-            'lastname' => 'Mustermann', 
-            'username' => 'EM27', 
-            'password' => 'azerty',
-            'question' => 'couleur préférée ',
-            'response' => 'roux'
-        ]
-    ];
- */
     /**
      * récupère le compte qui a l'id fourni en paramètre
      * @param $id 
@@ -36,14 +15,6 @@ class UserTable extends Table{
      */
     public function findOne($id){
         return $this->query("SELECT * FROM {$this->table} WHERE id_user = ?", [$id], true);
-        /*
-		$data = null;
-		foreach($this->fakeData as $user){
-			if($user['id'] == $id){
-				$data = $user;
-			}
-		}
-		return $data;*/
     }
     
     /**

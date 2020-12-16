@@ -8,7 +8,7 @@ class CommentTable extends Table{
 
     protected $table = 'post';	
     
-	protected $fakeData = [
+	/* protected $fakeData = [
         [
 			'id' => '1',
 			'date' => '2020-08-25 15:44:50',
@@ -30,7 +30,7 @@ class CommentTable extends Table{
 			'user_id' => '2',
 			'partner_id' => '2'
 		]
-    ];
+    ]; */
 
 	/**
 	*	Récupère tous les commentaires sur le partenaire indiqué
@@ -38,21 +38,22 @@ class CommentTable extends Table{
 	*	@return array
 	*/
 	public function allByPartner($partner_id){
-		/*
+		
 		return $this->query("
-			SELECT *
-			FROM post
-			WHERE id_acteur = ? 
-			ORDER BY date DESC
+			SELECT id_post, p.id_user, id_acteur, date_add, post, prenom 
+			FROM post p 
+				LEFT JOIN account a ON a.id_user = p.id_user 
+			WHERE p.id_acteur = ? 
+			ORDER BY date_add DESC 
 		",[$partner_id]);
-		*/
-		$data = [];
+		
+		/* $data = [];
 		foreach($this->fakeData as $comment){
 			if($comment['partner_id'] == $partner_id){
 				$data[] = $comment;
 			}
 		}
-		return $data;
+		return $data; */
 	}
 
 	public function findOne($id_user, $id_acteur){

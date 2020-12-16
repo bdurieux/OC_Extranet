@@ -35,11 +35,6 @@ class UsersController extends AppController{
 		$variables['errors'] = $errors;
 		
 		$this->render('users.login', $variables);
-		/* $title = "GBAF - Connexion";
-		$headerConnexion = $this->showButton();
-		$form = new MyForm($_POST);
-		$headerText = '<a href="index.php?p=users.inscription">Inscription</a>';
-		$this->render('users.login', compact('form', 'headerText','errors', 'headerConnexion','title')); */
 	}
 
 	/**
@@ -69,14 +64,6 @@ class UsersController extends AppController{
 		$variables['question'] = $question;
 		$this->render('users.forgotPass', $variables);
 
-		/* $title = "GBAF - Mot de passe oublié?";
-		$headerConnexion = $this->showButton();		
-		$headerText = '<a href="index.php?p=users.inscription">Inscription</a>';
-		$form = new MyForm($_POST);		
-		$this->render(
-			'users.forgotPass', 
-			compact('form','headerText', 'errors','headerConnexion','title','question','unidentified')
-		); */ 
 	}
 
 	/**
@@ -103,12 +90,6 @@ class UsersController extends AppController{
 		$variables = $this->compactVariables('Nouveau mot de passe',true,$_POST);
 		$variables['errors'] = $errors;		
 		$this->render('users.newPass', $variables);
-
-		/* $title = "GBAF - Nouveau mot de passe";
-		$headerConnexion = $this->showButton();
-		$headerText = '<a href="index.php?p=users.inscription">Inscription</a>';
-		$form = new MyForm($_POST);		
-		$this->render('users.newPass', compact('form','headerText', 'errors','headerConnexion','title')); */
 	}
 
 	/**
@@ -123,35 +104,31 @@ class UsersController extends AppController{
 			if(!$errors){
 				//sauvegarde en bdd
 				$userTable = App::getInstance()->getTable('User');
-				$result = $userTable->create(
-					[
-						'nom' => $_POST['nom'],
-						'prenom' => $_POST['prenom'],
-						'username' => $_POST['username'],
-						'password' => sha1($_POST['password']),
-						'question' => $_POST['question'],
-						'reponse' => sha1($_POST['reponse'])
-					]
-				);
-				if($result){
-					header('Location: index.php');
-				}
+				// vérification de l'unicité du pseudo
+				if($userTable->findUserByUsername($_POST['username'])){
+					$errors = true;
+					$message = "Pseudo déjà utilisé.";
+				}else{
+					$result = $userTable->create(
+						[
+							'nom' => $_POST['nom'],
+							'prenom' => $_POST['prenom'],
+							'username' => $_POST['username'],
+							'password' => sha1($_POST['password']),
+							'question' => $_POST['question'],
+							'reponse' => sha1($_POST['reponse'])
+						]
+					);
+					if($result){
+						header('Location: index.php');
+					}
+				}				
 			}
 		}
-
 		$variables = $this->compactVariables('Inscription',false,$_POST);
 		$variables['errors'] = $errors;
 		$variables['message'] = $message;
 		$this->render('users.inscription', $variables);
-
-		/* $title = "GBAF - Inscription";
-		$headerConnexion = $this->showButton();
-		$headerText = '<a href="index.php?p=users.login">Se connecter</a>';
-		$form = new MyForm($_POST);		
-		$this->render(
-			'users.inscription', 
-			compact('form', 'headerText', 'errors','headerConnexion','title','message')
-		); */
 	}
 
 	/**
@@ -159,44 +136,46 @@ class UsersController extends AppController{
 	 */
 	public function param(){
 		$errors = false;
+		$message = "";	
+		// vérification de l'authentification
 		if(isset($_SESSION['auth'])){
             $user = $this->User->findOne($_SESSION['auth']);
         }else{
             header("Location: index.php");
 		} 
 		
-		//var_dump($this->checkParam($_POST));	/*	DEBUG	*/
 		if(!empty($_POST)){
 			extract($this->checkParam($_POST));
 			if(!$errors){
 				//sauvegarde en bdd
 				$userTable = App::getInstance()->getTable('User');
-				$result = $userTable->update(
-					$user->id_user,
-					[
-						'nom' => $_POST['nom'],
-						'prenom' => $_POST['prenom'],
-						'username' => $_POST['username'],
-						'password' => sha1($_POST['password']),
-						'question' => $_POST['question'],
-						'reponse' => sha1($_POST['reponse'])
-					]
-				);
-				if($result){
-					header('Location: index.php');
-				}
+				$pseudoUser = $userTable->findUserByUsername($_POST['username']);
+				// on vérifie que le pseudo n'est pas deja utilisé par un autre user
+				if($pseudoUser != false && ($pseudoUser->id_user != $user->id_user)){
+					$errors = true;
+					$message .= "Pseudo déjà utilisé.";
+				}else{
+					$result = $userTable->update(
+						$user->id_user,
+						[
+							'nom' => $_POST['nom'],
+							'prenom' => $_POST['prenom'],
+							'username' => $_POST['username'],
+							'password' => sha1($_POST['password']),
+							'question' => $_POST['question'],
+							'reponse' => sha1($_POST['reponse'])
+						]
+					);
+					if($result){
+						header('Location: index.php');
+					}
+				}			
 			}
 		}
 		$variables = $this->compactVariables('Paramètres du compte',false,$user);
 		$variables['errors'] = $errors;
+		$variables['message'] = $message;
 		$this->render('users.param', $variables);
-
-		/* $title = "GBAF - Paramètres";
-		$headerConnexion = $this->showButton();
-		$headerText = $user->prenom . ' ' . $user->nom;
-		$form = new MyForm($user);
-		
-		$this->render('users.param', compact('form', 'headerText', 'errors','headerConnexion','title')); */
 	}
 
 	/**

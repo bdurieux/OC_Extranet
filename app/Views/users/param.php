@@ -1,4 +1,9 @@
 <h1>Paramètres du compte</h1>
+<?php if($errors): ?>
+	<div class="alert alert-danger">
+		<?= $message; ?>
+	</div>
+<?php endif; ?>
 <form method="post">   	
     <?= $form->input('nom', 'Nom'); ?>
     <?= $form->input('prenom', 'Prénom'); ?>

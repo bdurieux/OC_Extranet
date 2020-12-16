@@ -13,14 +13,16 @@
             <h3><?= sizeof($comments); ?> commentaire<?= $s; ?></h3>
         </div>
         <div id="block-btn">
-            <button class="btn btn-primary" onclick="toggleNewComment()">Nouveau commentaire</i></button>
+            <div id="btn-comment">
+                <button class="btn btn-primary" onclick="toggleNewComment()">Nouveau commentaire</i></button>
+            </div>
             <div id="review-btn">
                 <form method="post">
-                    <label><strong><?= 5;//$partner['nb_like']; ?></strong></label>
+                    <label class="lbl-like"><strong><?= $nb_like; ?></strong></label>
                     <button class="btn btn-success" type="submit" name="like"><i class="fa fa-thumbs-up"></i></button>
                 </form>
                 <form method="post">
-                    <label><strong><?= 2;//$partner['nb_dislike']; ?></strong></label>
+                    <label class="lbl-dislike"><strong><?= $nb_dislike; ?></strong></label>
                     <button class="btn btn-danger" type="submit" name="dislike"><i class="fa fa-thumbs-down"></i></button>
                 </form>
             </div>
@@ -31,11 +33,16 @@
             <?= $form->input('comment', 'Nouveau commentaire',true, ['type' => 'textarea']); ?>
             <?= $form->submit('Envoyer'); ?>
         </form>
+        <?php if(strlen($message)): ?>
+            <div class="alert alert-danger">
+                <?= $message; ?>
+            </div>
+        <?php endif; ?>
         <?php foreach ($comments as $comment): ?>	
             <div class="comment">
-                <p><strong><?= $comment['user_id']; ?></strong></p>
-                <p>Publié le <?= date('d/m/Y à H:i:s',strtotime($comment['date'])); ?></p>
-                <p><?= $comment['content']; ?></p>
+                <p><strong><?= $comment->prenom; ?></strong></p>
+                <p>Publié le <?= date('d/m/Y à H:i:s',strtotime($comment->date_add)); ?></p>
+                <p><?= $comment->post; ?></p>
             </div>
         <?php endforeach; ?>
     </div>

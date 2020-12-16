@@ -5,18 +5,21 @@ require ROOT . '/app/App.php';
 
 App::load();
 
+// définition de la page par défaut selon si l'utilisateur est connecté ou pas
 if(isset($_SESSION['auth'])){
 	$home = "partners.index";
 }else{
 	$home = "users.login";
 }
 
+//récupération des paramètres de l'url
 if(isset($_GET['p'])){
 	$page = $_GET['p'];
 }else{
 	$page = $home;
 }
 
+// 
 $page = explode('.', $page);
 
 if($page[0] == 'admin'){
@@ -28,9 +31,9 @@ if($page[0] == 'admin'){
 }
 
 $controller = new $controller();
-$controller->$action();
+//$controller->$action();
 try{
-	//$controller->$action();
+	$controller->$action();
 }catch(Throwable $t){
 	header('Location: index.php?p=public.notFound');
 }catch(Exception $e){

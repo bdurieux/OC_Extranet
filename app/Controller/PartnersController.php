@@ -35,22 +35,14 @@ class PartnersController extends AppController{
         $variables['user'] = $user;
         $variables['partners'] = $partners;
         $this->render('partners.index', $variables);
-        
-        /* $title = "Accueil GBAF";      
-        $headerConnexion = $this->showButton();
-        $headerText = $user->prenom . ' ' . $user->nom;
-        $this->render(
-            'partners.index',
-            compact('user', 'partners', 'title', 'headerText', 'errors','headerConnexion')
-        );  */       
 	}
 
     /**
      * affiche la page dédié du partenaire
      */
-	public function show(){
-        
+	public function show(){ 
         $errors = false;
+        $message = "";
         if($this->logged()){
             $user = $this->User->findOne($_SESSION['auth']);
         }else{
@@ -58,58 +50,52 @@ class PartnersController extends AppController{
         }  
         $partner = $this->Partner->findOne($_GET['id']);
         if($partner){            
-            if(isset($_POST['comment'])){
+            if(isset($_POST['comment'])){   // ajout d'un commentaire demandé
                 // vérifier validité du commentaire
                 if(strlen($_POST['comment'])>4){
                     $commentTable = App::getInstance()->getTable('Comment');
                     // vérifier l'unicité du commentaire
                     if(!$commentTable->findOne($user->id_user, $partner->id_acteur)){
                         //sauver le commentaire en bdd ($user->id_user, $partner->id, $_POST['post'])
-                    
-                        var_dump("id_user : " . $user->id_user); /*  DEBUG */
-                        var_dump("id_acteur : " . $partner->id_acteur); /*  DEBUG */
-                        var_dump("post : " . $_POST['comment']); /*  DEBUG */
-                        
-
-                        /* $result = $commentTable->create(
+                        $result = $commentTable->create(
                             [
-                                'id_user' => $_POST['nom'],
-                                'id_acteur' => $_POST['prenom'],
-                                'comment' => $_POST['comment']
+                                'id_user' => $user->id_user,
+                                'id_acteur' => $partner->id_acteur,
+                                'post' => $_POST['comment']
                             ]
                         );
                         if($result){
-                            header('Location: index.php');
-                        } */
-                    }
-                    
+                            header('Location: index.php?p=partners.show&id=' . $partner->id_acteur);
+                        }
+                    }else{
+                        $errors = true;
+                        $message = "Vous avez déjà commenté cet acteur.";
+                    }                    
                 }                
-            }elseif(isset($_POST['like'])){
-                //$this->vote($user->id_user, $partner->id_acteur, true);
-                var_dump($this->vote($user->id_user, $partner->id_acteur, true));
-            }elseif(isset($_POST['dislike'])){
-                $this->vote($user->id_user, $partner->id_acteur, false);
+            }elseif(isset($_POST['like'])){ // ajout d'un like
+                if(!$this->vote($user->id_user, $partner->id_acteur, true)){
+                    $message = "Vous avez déjà voté pour  cet acteur.";
+                }
+            }elseif(isset($_POST['dislike'])){  // ajout d'un dislike
+                if(!$this->vote($user->id_user, $partner->id_acteur, false)){
+                    $message = "Vous avez déjà voté pour  cet acteur.";
+                }                
             }
-            /* 
-            $title = "Partenaire GBAF - " . $partner->acteur;
-            $headerConnexion = $this->showButton();
-            $headerText = $user->prenom . ' ' . $user->nom;
-            $form = new MyForm($_POST);
-            $this->render(
-                'partners.show', 
-                compact('form','user', 'partner','comments', 'title', 'headerText', 'errors','headerConnexion')
-            ); */
+            $nb_like = $this->Vote->count($partner->id_acteur,true);
+            $nb_dislike = $this->Vote->count($partner->id_acteur,false);
             $comments = $this->Comment->allByPartner($partner->id_acteur);
             $variables = $this->compactVariables('Accueil',false,$_POST);
             $variables['errors'] = $errors;
+            $variables['message'] = $message;
             $variables['user'] = $user;
             $variables['partner'] = $partner;
             $variables['comments'] = $comments;
+            $variables['nb_like'] = $nb_like;
+            $variables['nb_dislike'] = $nb_dislike;
             $this->render('partners.show', $variables);
         }else{
             header('Location: index.php?p=public.notFound');
-        }
-        
+        }        
     }
     
     /**
