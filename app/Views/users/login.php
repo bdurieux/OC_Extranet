@@ -4,7 +4,7 @@
 		Identifiants incorrects!
 	</div>
 <?php endif; ?>
-<form method="post">
+<form method="post" class="form-1">
 	<?= $form->input('username', 'Pseudo',true); ?>
 	<?= $form->input('password', 'Mot de passe', ['type' => 'password']); ?>
 	<?= $form->submit('Envoyer'); ?>

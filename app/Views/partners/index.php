@@ -1,11 +1,12 @@
-<?php
-/* $cookiename = "cookie with no name";
-if(isset($_COOKIE['username'])){
-    $cookiename = "Welcome " . $_COOKIE['username'];
-}
-var_dump($cookiename); */
-?>
 <section id="presentation">
+    <div class="presentation2">
+        <div class="item-1"><img src="images/banque_postale.png" alt="logo Banque Postale"></div>
+        <div class="item-2"><img src="images/bnp_paribas.png" alt="logo BNP Paribas"></div>
+        <div class="item-3"><img src="images/BPCE.png" alt="logo BPCE"></div>
+        <div class="item-4"><img src="images/cic.png" alt="logo CIC"></div>
+		<div class="item-5"><img src="images/credit_agricole.png" alt="logo Crédit Agricole"></div>
+		<div class="item-6"><img src="images/societe_generale.png" alt="logo Société Générale"></div>
+    </div>
     <h1>GBAF</h1>
     <div id="presentation1">
         <p>Le Groupement Banque Assurance Français (GBAF) est une fédération représentant les 6 
@@ -27,9 +28,7 @@ var_dump($cookiename); */
             publics.
         </p>
     </div>
-    <div id="presentation2">
-        <img src="images/bank-generic.jpg">
-    </div>
+    
 </section>
 <section id="partners">
     <h2>Acteurs et partenaires</h2>
@@ -40,12 +39,12 @@ var_dump($cookiename); */
     <?php foreach ($partners as $partner): ?>	
         <div class="partner">
             <div class="partner1">
-                <img class="partnerIcon" src="images/logo_p<?= $partner->id_acteur;//$partner['id']; ?>.png" alt="logo acteur">
+                <img class="partnerIcon" src="images/logo_p<?= $partner->id_acteur; ?>.png" alt="logo acteur">
             </div>
             <div class="partner2">                
                 <div class="partnerText">
-                    <h3><?= $partner->acteur;//$partner['title']; ?></h3>
-                    <p><?= substr($partner->description, 0, 150) . '...'; ?></p>					
+                    <h3><?= $partner->acteur; ?></h3>
+                    <p><?= $partner->getExtrait(); ?></p>					
                 </div>
                 <div class="partnerBtn">
                     <a href="index.php?p=partners.show&id=<?= $partner->id_acteur; ?>" class="button btn btn-primary" >

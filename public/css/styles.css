@@ -2,16 +2,16 @@
 header {
 	padding: 20px;
 	display: flex;
-	justify-content: space-between;
-    
+	justify-content: space-between;    
     border-bottom: 3px double black;
+    background: linear-gradient(to left, #b7dbff, 30%, white 75%);
 
 	/*background-color: lightgreen;   /*  DEBUG    */	
 }
 
 #header1{
     display: flex;
-    /*border: 3px dotted white;   /*  DEBUG    */
+    /*border: 3px dotted blue;   /*  DEBUG    */
 }
 
 #header1 img{
@@ -27,8 +27,8 @@ header {
 #header2{
 	display: flex;
     flex-direction: column;
-    
-    /*background-color: lightgreen;   /*  DEBUG    */
+        
+    /*border: 2px solid red;    /*  DEBUG   */
 }
 
 #header2 div{
@@ -49,8 +49,7 @@ header {
 body{
     margin: 1em 16.66%;
     font-size: 16px;
-    font-family: 'Montserrat', sans-serif;
-    
+    font-family: 'Montserrat', sans-serif;    
 
     /*border: 3px solid green; /*  DEBUG   */
 }
@@ -65,16 +64,62 @@ body{
 .content{
     width: auto;
     padding: 0em 1em 0em 1em;
+    /*border: 3px solid pink; /*  DEBUG   */
 } 
 
 #presentation{
     border-bottom: 3px double black;
+    /*border: 3px dotted red; /*  DEBUG   */
 }
 
-#presentation2{
-	display: flex;
+.presentation2{
+    width: 100%;
+	display: grid;											
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;	
+	grid-template-rows: auto;								
+	grid-gap: 0px;											
+	grid-template-areas: 
+	"lbp bnp bpce cic ca sg";
+	/* display: flex;
     flex-direction: column;
-    margin: 2em 0em;
+    margin: 2em 0em; */
+}
+
+.presentation2 div{
+	width: 100%;
+	display: flex;
+	/*border: 3px dotted green;/* DEBUG   */
+}
+
+.presentation2 div img{
+	width: 100%;
+	align-self: center;
+	max-width: 200px;
+	/*border: 3px dotted red;/* DEBUG   */
+}
+
+.item-1{
+	grid-area: lbp;
+}
+
+.item-1{
+	grid-area: bnp;
+}
+
+.item-1{
+	grid-area: bpce;
+}
+
+.item-1{
+	grid-area: cic;
+}
+
+.item-1{
+	grid-area: ca;
+}
+
+.item-1{
+	grid-area: sg;
 }
 
 #presentation2 img{
@@ -121,7 +166,7 @@ body{
 }
 
 .comment{
-    margin: 1em;
+    margin: 1em 0em;
     padding: 1em;
     border: 3px solid black;
     border-radius: 4px;
@@ -136,11 +181,12 @@ body{
 }
 
 .partner{
-	padding: 10px;
+	
 	display: flex;
     margin: 1em 0em;
     box-shadow: 5px 2px 3px black;
     border-radius: 4px;
+    background: linear-gradient(to left, #b4dbaf, white 80%);
 
 	/*border: 3px solid blue; /*   DEBUG   */
 }
@@ -151,12 +197,12 @@ body{
 }
 
 .partner2{
-    padding: 1em;
+    
     display: flex;
     flex-grow: 2;
     flex-direction: column;	
 
-	/*border: 3px dotted green;   /*  DEBUG   */
+	/*border: 3px dotted red;   /*  DEBUG   */
 }
 
 .partnerText{
@@ -204,6 +250,7 @@ footer {
 	padding: 2em;
     text-align: center;
     border-top: 3px double black;
+    background: linear-gradient(to top left, #b7dbff, 70%, white);
 
 	/*background-color: orange;   /*  DEBUG    */
 	
@@ -273,7 +320,7 @@ footer a{
 .form-group{
     display: flex;
     flex-direction: column;
-    margin-bottom: 1em;
+    margin-bottom: 0em;
     
     width: auto;    
 }
@@ -282,6 +329,14 @@ footer a{
     margin: 1em 0em;
     width: auto;
     border: 3px solid lightblue;
+}
+
+.form-1{
+    padding: 1em;
+    border:none;
+    border-radius: 4px;
+    box-shadow: 5px 2px 3px black;
+    background: linear-gradient(to top left, #b4dbaf, white);
 }
 
 input{
@@ -369,7 +424,19 @@ input{
     }
 
     #review-btn{
-        margin: auto;       
-         
+        margin: auto;            
     }
+
+    .presentation2{
+		width: 100%;
+		display: grid;											
+		grid-template-columns: 1fr 1fr 1fr;	
+		grid-template-rows: auto auto;							
+		grid-gap: 0px;	
+		grid-template-areas: 
+		"lbp bnp bpce "
+		"cic ca sg";
+
+		/*border: 3px solid purple;*/
+	}
 }

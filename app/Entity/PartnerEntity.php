@@ -11,7 +11,7 @@ class PartnerEntity extends Entity{
 	 * @return 
 	 */
 	public function getUrl(){
-		return 'index.php?p=partners.show&id=' . $this->id;
+		return 'index.php?p=partners.show&id=' . $this->id_acteur;
 	}
 
 	/**
@@ -19,7 +19,7 @@ class PartnerEntity extends Entity{
 	 * @return 
 	 */
 	public function getExtrait(){
-		$html = '<p>' . substr($this->description, 0, 100) . '...</p>';
+		$html = '<p>' . substr($this->description, 0, 150) . '...</p>';
 		$html .= '<p><a href="' . $this->getURL() . '" >Lire la suite</a></p>';
 		return $html;
 	}

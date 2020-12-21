@@ -13,8 +13,7 @@
   <body>
     <!-- HEADER   -->
     <header>
-      <div id="header1">
-        
+      <div id="header1">        
         <a href="index.php">
           <img src="images/gbaf.png" alt="logo GBAF">
         </a>
@@ -24,19 +23,23 @@
           <div id="header211" class="<?= $headerConnexion; ?>">
             <a href="index.php?p=users.param" class="button btn btn-primary "><i class="fa fa-user"></i></a>
           </div>
-          <div id="header212"><?= $headerText; ?></div>	
+          <div id="header212">
+            <?= $headerText; ?>
+          </div>	
           <div id="header213" class="<?= $headerConnexion; ?>">
             <a href="index.php?p=users.logout" class="button btn btn-danger "><i class="fa fa-sign-out"></i></a>
           </div>
         </div>        		
       </div>
     </header>
-    <div class="content" style="padding-top: 100px">
+    <div class="content" style="padding-top: 30px">
       <?= $content; ?>
     </div>
     <!-- FOOTER   -->
     <footer>
-      <p>|<a href="index.php?p=public.legal">Mentions légales</a>|<a href="index.php?p=public.contact">Contact</a>|</p>      
+      <p>|<a href="index.php?p=users.chat">Chat</a>
+        |<a href="index.php?p=public.legal">Mentions légales</a>|
+        <a href="index.php?p=public.contact">Contact</a>|</p>      
     </footer>
 </body>
 </html>

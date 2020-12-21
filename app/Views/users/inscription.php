@@ -5,7 +5,7 @@
 		<?= $message; ?>
 	</div>
 <?php endif; ?>
-<form method="post">
+<form method="post" class="form-1">
     <?= $form->input('nom', 'Nom',true); ?>
     <?= $form->input('prenom', 'Prénom',true); ?>
 	<?= $form->input('username', 'Pseudo',true); ?>

@@ -32,9 +32,7 @@ class DBAuth{
 	*/
 	public function login($username, $password){
 		$user = $this->db->prepare('SELECT * FROM account WHERE username = ?', [$username], null, true);
-		
 		//var_dump(sha1('demo'));   /*  DEBUG   */
-		
 		if ($user) {
 			if ($user->password === sha1($password)) {
 				$_SESSION['auth'] = $user->id_user;

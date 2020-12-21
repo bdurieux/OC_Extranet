@@ -2,10 +2,10 @@
 <p>Entrez votre pseudo et répondez à la question secrète pour modifier votre mot de passe.</p>
 <?php if($errors): ?>
 	<div class="alert alert-danger">
-		Identifiants incorrects!
+		<?= $message; ?>
 	</div>
 <?php endif; ?>
-<form method="post">
+<form method="post" class="form-1">
 	<?= $form->input('username', 'Pseudo',true); ?>
 	<div class="<?= $unidentified; ?>">
 		<p><strong>Question secrète:</strong></p>

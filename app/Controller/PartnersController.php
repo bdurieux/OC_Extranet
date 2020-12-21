@@ -49,7 +49,16 @@ class PartnersController extends AppController{
             header("Location: index.php");
         }  
         $partner = $this->Partner->findOne($_GET['id']);
-        if($partner){            
+        if($partner){        
+            /**********************************************************************/
+            /* var_dump($partner->description);
+            $subject = $partner->description;
+            $pattern = "#^Formati#";//"#^:;+\.$#";
+            preg_match($pattern, $subject, $matches, PREG_OFFSET_CAPTURE, 3);
+            var_dump($matches);
+            var_dump(nl2br($subject)); */
+            //var_dump($partner->description);
+            /**********************************************************************/
             if(isset($_POST['comment'])){   // ajout d'un commentaire demandé
                 // vérifier validité du commentaire
                 if(strlen($_POST['comment'])>4){

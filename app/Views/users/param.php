@@ -4,7 +4,7 @@
 		<?= $message; ?>
 	</div>
 <?php endif; ?>
-<form method="post">   	
+<form method="post" class="form-1">   	
     <?= $form->input('nom', 'Nom'); ?>
     <?= $form->input('prenom', 'Prénom'); ?>
 	<?= $form->input('username', 'Pseudo'); ?>

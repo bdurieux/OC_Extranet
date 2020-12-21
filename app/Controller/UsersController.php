@@ -12,7 +12,8 @@ class UsersController extends AppController{
 	public function __construct(){
 		parent::__construct();
 		$this->loadModel('User');
-        $this->loadModel('Partner');
+		$this->loadModel('Partner');
+		$this->loadModel('Chat');
 	}
 
 	/**
@@ -42,7 +43,9 @@ class UsersController extends AppController{
 	 * en cas de succès, redirige vers la page pour choisir un nouveau mot de passe
 	 */
 	public function forgotPass(){
+		
 		$errors = false;
+		$message = "";
 		$unidentified = " btn-hidden";
 		$question = "Entrez votre pseudo et répondez à la question.";			
 		if (!empty($_POST)) {
@@ -53,17 +56,21 @@ class UsersController extends AppController{
 				$auth = new MyAuth(App::getInstance()->getDb());
 				if ($auth->question($_POST['username'],$_POST['reponse'])) {
 					header('Location: index.php?p=users.newPass');
+				}else{
+					$errors = true;
+					$message = "Identifiants incorrects.";
 				}
 			}else{
 				$errors = true;
+				$message = "Pseudo inconnu.";
 			}			
 		}
 		$variables = $this->compactVariables('Mot de passe oublié',true,$_POST);
 		$variables['errors'] = $errors;
+		$variables['message'] = $message;
 		$variables['unidentified'] = $unidentified;
 		$variables['question'] = $question;
 		$this->render('users.forgotPass', $variables);
-
 	}
 
 	/**
@@ -78,7 +85,8 @@ class UsersController extends AppController{
 				if(strlen($_POST['password1'])>0 && sha1($_POST['password1']) === sha1($_POST['password2'])){
 					//faire l'update du password
 					$userTable = App::getInstance()->getTable('User');
-					$result = $userTable->update($user->id_user, ['password' => sha1($_POST['password1'])]);
+					$result = 
+						$userTable->update($user->id_user, ['password' => sha1($_POST['password1'])]);
 					if($result){
 						header('Location: index.php');
 					}
@@ -185,6 +193,43 @@ class UsersController extends AppController{
 		unset($_SESSION['auth']);
 		header('Location: index.php?p=users.login');
 	}	
+
+	/**
+	 * affiche le chat pour les utilisateurs connecté
+	 */
+	public function chat(){
+		$errors = false;
+		$message = "";	
+		// vérification de l'authentification
+		if(isset($_SESSION['auth'])){
+            $user = $this->User->findOne($_SESSION['auth']);
+        }else{
+            header("Location: index.php");
+		} 
+		if(isset($_POST['chat'])){	// ajout d'un message demandé
+			// vérification de la validité du message
+			if(strlen($_POST['chat'])>1 && strlen($_POST['chat'])<255){
+				$chatTable = App::getInstance()->getTable('Chat');
+				$result = $chatTable->create(
+					[
+						'id_user' => $user->id_user,
+						'message' => $_POST['chat']
+					]
+				);
+				
+			}else{
+				$errors = true;
+				$message = "Message invalide.";
+			} 
+		}
+		$chats = $this->Chat->lasts();
+		$variables = $this->compactVariables('Chat',false,$_POST);
+		$variables['errors'] = $errors;
+		$variables['message'] = $message;
+		$variables['chats'] = $chats;
+		$variables['user'] = $user;
+		$this->render('users.chat', $variables);
+	}
 
 	/**
 	 * vérifie la validité des paramètres du compte

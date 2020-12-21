@@ -3,8 +3,7 @@
         <img src="images/logo_p<?= $partner->id_acteur; ?>.png" alt="logo acteur">
     </div>
     <h2><?= $partner->acteur; ?></h2>
-    <a href="#">Lien</a>
-    <p><?= $partner->description; ?></p>
+    <p><?= nl2br($partner->description); ?></p>
 </section>		
 <section id="comments">
     <div id="headerComments">
@@ -29,8 +28,8 @@
         </div>				
     </div>
     <div id="listComments">
-        <form method="post" id="newComment" >
-            <?= $form->input('comment', 'Nouveau commentaire',true, ['type' => 'textarea']); ?>
+        <form method="post" id="newComment" class="form-1">
+            <?= $form->input('comment', 'Laisser un commentaire',true, ['type' => 'textarea']); ?>
             <?= $form->submit('Envoyer'); ?>
         </form>
         <?php if(strlen($message)): ?>
@@ -42,7 +41,7 @@
             <div class="comment">
                 <p><strong><?= $comment->prenom; ?></strong></p>
                 <p>Publié le <?= date('d/m/Y à H:i:s',strtotime($comment->date_add)); ?></p>
-                <p><?= $comment->post; ?></p>
+                <p><?= htmlspecialchars($comment->post); ?></p>
             </div>
         <?php endforeach; ?>
     </div>

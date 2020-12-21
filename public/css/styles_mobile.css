@@ -1,6 +1,7 @@
 header{
     display: flex;
     flex-direction: column;
+    background: linear-gradient(to top, grey, 10%, white 50%);
 }
 
 #header1{
@@ -21,6 +22,8 @@ body{
 
 .partner{
     flex-direction: column;
+    background: linear-gradient(to top, #b4dbaf, white 60%);
+    /*border: 5px dotted red;   /*  DEBUG   */
 }
 
 .partnerIcon{

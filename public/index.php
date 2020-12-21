@@ -31,9 +31,9 @@ if($page[0] == 'admin'){
 }
 
 $controller = new $controller();
-//$controller->$action();
+$controller->$action();
 try{
-	$controller->$action();
+	//$controller->$action();
 }catch(Throwable $t){
 	header('Location: index.php?p=public.notFound');
 }catch(Exception $e){

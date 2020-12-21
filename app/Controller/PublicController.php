@@ -36,7 +36,7 @@ class PublicController extends AppController{
 	 * affiche page introuvable
 	 */
 	public function notFound(){
-		$variables = $this->compactVariables('Page introuvable',true);
+		$variables = $this->compactVariables('Page introuvable',true,$_POST);
 		if($this->logged()){
 			$user = $this->User->findOne($_SESSION['auth']);
 			$variables['user'] = $user;

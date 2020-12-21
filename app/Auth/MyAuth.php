@@ -15,8 +15,7 @@ class MyAuth extends DBAuth{
 	*/
 	public function question($username, $reponse){
 		$user = $this->db->prepare('SELECT * FROM account WHERE username = ?', [$username], null, true);
-		
-		//var_dump(sha1('mimine'));   /*  DEBUG   */		
+		//var_dump(sha1('roux'));   /*  DEBUG   */		
 		if ($user) {
 			if ($user->reponse === sha1($reponse)) {
 				return true;

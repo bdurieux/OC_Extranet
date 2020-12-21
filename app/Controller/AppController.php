@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use Core\Controller\Controller;
-//use Core\Auth\DBAuth;
 use Core\HTML\MyForm;
 use \App;
 
@@ -66,4 +65,6 @@ class AppController extends Controller{
 		$form = new MyForm($userParam);
 		return compact('title','headerConnexion','headerText','form');
 	}
+
+	
 }
