@@ -31,12 +31,12 @@ if($page[0] == 'admin'){
 }
 
 $controller = new $controller();
-$controller->$action();
+//$controller->$action();
 try{
-	//$controller->$action();
-}catch(Throwable $t){
+	$controller->$action();
+}catch(Throwable $t){		// php 7 only
 	header('Location: index.php?p=public.notFound');
-}catch(Exception $e){
+}catch(Exception $e){	// php 5 only
 	header('Location: index.php?p=public.notFound');
 }
 

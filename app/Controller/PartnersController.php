@@ -8,8 +8,6 @@ use Core\HTML\MyForm;
 
 class PartnersController extends AppController{
 
-
-
     public function __construct(){
 		parent::__construct();
 		$this->loadModel('User');
@@ -51,13 +49,7 @@ class PartnersController extends AppController{
         $partner = $this->Partner->findOne($_GET['id']);
         if($partner){        
             /**********************************************************************/
-            /* var_dump($partner->description);
-            $subject = $partner->description;
-            $pattern = "#^Formati#";//"#^:;+\.$#";
-            preg_match($pattern, $subject, $matches, PREG_OFFSET_CAPTURE, 3);
-            var_dump($matches);
-            var_dump(nl2br($subject)); */
-            //var_dump($partner->description);
+            //$partner->description = $this->createUL($partner->description);
             /**********************************************************************/
             if(isset($_POST['comment'])){   // ajout d'un commentaire demandé
                 // vérifier validité du commentaire
@@ -135,4 +127,39 @@ class PartnersController extends AppController{
         return $existeDeja;
     }
 
+    /**
+     * transforme une string avec un : suivi de ; en <ul></ul>
+     * @param $text
+     * @return 
+     */
+    private function createUL($text){
+        $parts = explode(':',$text);
+        $html = '';
+        if(sizeof($parts)>1){
+            $pattern = "#.+(.;+.+)#";            
+            foreach($parts as $part){
+                if(preg_match($pattern, $part)){
+                    $pieces = explode(';', $part);
+                    $list = ':<ul style="list-style-type:none">';
+                    foreach($pieces as $piece){
+                        $list .= '<li>';
+                        $pdot = explode(".", $piece);
+                        $afterUL = substr($piece, strlen($pdot[0])+1);
+				        $end = (strlen($afterUL) == 0)? '' : ':';
+                        if (sizeof($pdot)>1) {
+                            $list .= $pdot[0] . '</li></ul>' . substr($piece, strlen($pdot[0])+1) . $end;
+                        }else{
+                            $list .= $piece . '</li>';
+                        }
+                    }
+                    $html .= $list;
+                }else{
+                    $html .= $part;
+                }                
+            }            
+        }else{
+            $html = $text;
+        }
+        return $html;
+    }
 }

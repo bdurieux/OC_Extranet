@@ -32,9 +32,12 @@ class DBAuth{
 	*/
 	public function login($username, $password){
 		$user = $this->db->prepare('SELECT * FROM account WHERE username = ?', [$username], null, true);
-		//var_dump(sha1('demo'));   /*  DEBUG   */
+		//var_dump(sha1('star'));   /*  DEBUG   */
+		//var_dump(password_hash('star',PASSWORD_DEFAULT));
 		if ($user) {
-			if ($user->password === sha1($password)) {
+			var_dump($user->password);
+			var_dump(password_hash($password,PASSWORD_DEFAULT));
+			if(password_verify($password,$user->password)){
 				$_SESSION['auth'] = $user->id_user;
 				setcookie('username', $user->username, time() + (86400 * 30), "/");
 				return true;

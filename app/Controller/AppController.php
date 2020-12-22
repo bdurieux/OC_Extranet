@@ -66,5 +66,23 @@ class AppController extends Controller{
 		return compact('title','headerConnexion','headerText','form');
 	}
 
+	/**
+	 * nettoie une chaine de caractère
+	 * @return
+	 */
+	protected function secure($data){
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return($data);
+	}
 	
+	/**
+	 * Nettoie une valeur insérée dans une page HTML
+	 * @param data
+	 * @return 
+	 */
+	protected function cleanData($data) {
+		return htmlspecialchars($data, ENT_QUOTES, 'UTF-8', false);
+	}
 }

@@ -25,16 +25,14 @@ class UsersController extends AppController{
 		$errors = false;
 		if (!empty($_POST)) {
 			$auth = new DBAuth(App::getInstance()->getDb());
-			if ($auth->login($_POST['username'],$_POST['password'])) {		
+			if ($auth->login($this->secure($_POST['username']),$this->secure($_POST['password']))) {		
 				header('Location: index.php?p=partners.index');
 			}else{
 				$errors = true;
 			}
-		}	
-		
+		}		
 		$variables = $this->compactVariables('Connexion',true,$_POST);
-		$variables['errors'] = $errors;
-		
+		$variables['errors'] = $errors;		
 		$this->render('users.login', $variables);
 	}
 
@@ -43,18 +41,17 @@ class UsersController extends AppController{
 	 * en cas de succès, redirige vers la page pour choisir un nouveau mot de passe
 	 */
 	public function forgotPass(){
-		
 		$errors = false;
 		$message = "";
 		$unidentified = " btn-hidden";
 		$question = "Entrez votre pseudo et répondez à la question.";			
 		if (!empty($_POST)) {
-			$user = $this->User->findUserByUsername($_POST['username']);			
+			$user = $this->User->findUserByUsername($this->secure($_POST['username']));			
 			if($user){
 				$question = $user->question;
 				$unidentified = "";
 				$auth = new MyAuth(App::getInstance()->getDb());
-				if ($auth->question($_POST['username'],$_POST['reponse'])) {
+				if ($auth->question($this->secure($_POST['username']),$this->secure($_POST['reponse']))) {
 					header('Location: index.php?p=users.newPass');
 				}else{
 					$errors = true;
@@ -80,13 +77,16 @@ class UsersController extends AppController{
 	public function newPass(){
 		$errors = false;
 		if(!empty($_POST)){			
-			$user = $this->User->findUserByUsername($_POST['username']);
+			$user = $this->User->findUserByUsername($this->secure($_POST['username']));
 			if($user){				
-				if(strlen($_POST['password1'])>0 && sha1($_POST['password1']) === sha1($_POST['password2'])){
+				if(strlen($this->secure($_POST['password1']))>0 
+					&& $this->secure($_POST['password1']) === $this->secure($_POST['password2'])){
 					//faire l'update du password
 					$userTable = App::getInstance()->getTable('User');
 					$result = 
-						$userTable->update($user->id_user, ['password' => sha1($_POST['password1'])]);
+						$userTable->update($user->id_user,
+						 ['password' => password_hash($this->secure($_POST['password1']),PASSWORD_DEFAULT)]);
+						//$userTable->update($user->id_user, ['password' => sha1($_POST['password1'])]);
 					if($result){
 						header('Location: index.php');
 					}
@@ -110,21 +110,20 @@ class UsersController extends AppController{
 		if(!empty($_POST)){
 			extract($this->checkParam($_POST));
 			if(!$errors){
-				//sauvegarde en bdd
 				$userTable = App::getInstance()->getTable('User');
 				// vérification de l'unicité du pseudo
-				if($userTable->findUserByUsername($_POST['username'])){
+				if($userTable->findUserByUsername($this->secure($_POST['username']))){
 					$errors = true;
 					$message = "Pseudo déjà utilisé.";
 				}else{
 					$result = $userTable->create(
 						[
-							'nom' => $_POST['nom'],
-							'prenom' => $_POST['prenom'],
-							'username' => $_POST['username'],
-							'password' => sha1($_POST['password']),
-							'question' => $_POST['question'],
-							'reponse' => sha1($_POST['reponse'])
+							'nom' => $this->secure($_POST['nom']),
+							'prenom' => $this->secure($_POST['prenom']),
+							'username' => $this->secure($_POST['username']),
+							'password' => password_hash($this->secure($_POST['password']),PASSWORD_DEFAULT),
+							'question' => $this->secure($_POST['question']),
+							'reponse' => password_hash($this->secure($_POST['reponse']),PASSWORD_DEFAULT)
 						]
 					);
 					if($result){
@@ -157,7 +156,7 @@ class UsersController extends AppController{
 			if(!$errors){
 				//sauvegarde en bdd
 				$userTable = App::getInstance()->getTable('User');
-				$pseudoUser = $userTable->findUserByUsername($_POST['username']);
+				$pseudoUser = $userTable->findUserByUsername($this->secure($_POST['username']));
 				// on vérifie que le pseudo n'est pas deja utilisé par un autre user
 				if($pseudoUser != false && ($pseudoUser->id_user != $user->id_user)){
 					$errors = true;
@@ -166,12 +165,12 @@ class UsersController extends AppController{
 					$result = $userTable->update(
 						$user->id_user,
 						[
-							'nom' => $_POST['nom'],
-							'prenom' => $_POST['prenom'],
-							'username' => $_POST['username'],
-							'password' => sha1($_POST['password']),
-							'question' => $_POST['question'],
-							'reponse' => sha1($_POST['reponse'])
+							'nom' => $this->secure($_POST['nom']),
+							'prenom' => $this->secure($_POST['prenom']),
+							'username' => $this->secure($_POST['username']),
+							'password' => password_hash($this->secure($_POST['password']),PASSWORD_DEFAULT),
+							'question' => $this->secure($_POST['question']),
+							'reponse' => password_hash($this->secure($_POST['reponse']),PASSWORD_DEFAULT)
 						]
 					);
 					if($result){
@@ -208,15 +207,14 @@ class UsersController extends AppController{
 		} 
 		if(isset($_POST['chat'])){	// ajout d'un message demandé
 			// vérification de la validité du message
-			if(strlen($_POST['chat'])>1 && strlen($_POST['chat'])<255){
+			if(strlen($this->secure($_POST['chat']))>1 && strlen($this->secure($_POST['chat']))<255){
 				$chatTable = App::getInstance()->getTable('Chat');
 				$result = $chatTable->create(
 					[
 						'id_user' => $user->id_user,
-						'message' => $_POST['chat']
+						'message' => $this->secure($_POST['chat'])
 					]
-				);
-				
+				);				
 			}else{
 				$errors = true;
 				$message = "Message invalide.";
@@ -239,27 +237,27 @@ class UsersController extends AppController{
 	protected function checkParam($params){
 		$errors = false;
 		$message = "";
-		if(isset($_POST['nom']) && strlen($_POST['nom'])<2){
+		if(isset($_POST['nom']) && strlen($this->secure($_POST['nom']))<2){
 			$message .= "Nom invalide <br>";
 			$errors = true;
 		}
-		if(isset($_POST['prenom']) && strlen($_POST['prenom'])<2){
+		if(isset($_POST['prenom']) && strlen($this->secure($_POST['prenom']))<2){
 			$message .= "Prénom invalide <br>";
 			$errors = true;
 		}
-		if(isset($_POST['username']) && strlen($_POST['username'])<4){
+		if(isset($_POST['username']) && strlen($this->secure($_POST['username']))<4){
 			$message .= "Pseudo invalide <br>";
 			$errors = true;
 		}
-		if(isset($_POST['password']) && strlen($_POST['password'])<4){
+		if(isset($_POST['password']) && strlen($this->secure($_POST['password']))<4){
 			$message .= "Mot de passe invalide <br>";
 			$errors = true;
 		}
-		if(isset($_POST['question']) && strlen($_POST['question'])<10){
+		if(isset($_POST['question']) && strlen($this->secure($_POST['question']))<10){
 			$message .= "Question invalide <br>";
 			$errors = true;
 		}
-		if(isset($_POST['reponse']) && strlen($_POST['reponse'])<4){
+		if(isset($_POST['reponse']) && strlen($this->secure($_POST['reponse']))<4){
 			$message .= "Réponse invalide <br>";
 			$errors = true;
 		}

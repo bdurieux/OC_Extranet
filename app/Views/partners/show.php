@@ -37,6 +37,9 @@
                 <?= $message; ?>
             </div>
         <?php endif; ?>
+        <?php $s = (($nb_like+$nb_dislike)>1)? 's' : '';?>
+        <p>Taux de satisfaction: <strong><?= number_format(($nb_like/($nb_like+$nb_dislike))*100); ?>% 
+            </strong> (<?= $nb_like+$nb_dislike; ?> vote<?= $s; ?>)</p>
         <?php foreach ($comments as $comment): ?>	
             <div class="comment">
                 <p><strong><?= $comment->prenom; ?></strong></p>
